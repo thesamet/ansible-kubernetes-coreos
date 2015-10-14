@@ -1,0 +1,10 @@
+- name: create master keys directory
+  file: name=/etc/kubernetes/ssl/ state=directory
+
+- name: set up master TLS assets
+  copy: src=../../../certs/{{item}} dest=/etc/kubernetes/ssl/{{item}}
+  with_items:
+  - ca.pem
+  - apiserver.pem
+  - apiserver-key.pem
+

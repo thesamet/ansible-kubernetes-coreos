@@ -1,0 +1,22 @@
+- name: create directories
+  file: name={{item}} state=directory
+  with_items:
+  - /etc/flannel
+  - /etc/systemd/system/flanneld.service.d/
+  - /etc/systemd/system/docker.service.d/
+
+- name: install options.env
+  template: 
+    src=options.env.j2 dest=/etc/flannel/options.env
+  notify: daemon-reload
+
+- name: install 40-ExecStartPre-symlink.conf
+  copy:
+    src=40-ExecStartPre-symlink.conf dest=/etc/systemd/system/flanneld.service.d/
+  notify: daemon-reload
+
+- name: install 40-flannel.conf
+  copy:
+    src=40-flannel.conf dest=/etc/systemd/system/docker.service.d/
+  notify: daemon-reload
+

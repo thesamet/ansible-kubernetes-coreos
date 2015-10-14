@@ -1,0 +1,4 @@
+- name: Configure flannel network
+  command: 
+    curl -XPUT http://{{groups['etcd'][0]}}:2379/v2/keys/coreos.com/network/config -d '{{lookup('template', '../templates/set-network-config.j2')}}'
+

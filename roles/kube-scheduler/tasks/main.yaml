@@ -1,0 +1,6 @@
+- name: create manifests directory
+  file: name=/etc/kubernetes/manifests state=directory
+
+- name: create schduler pod manifest
+  copy: src=kube-scheduler.yaml dest=/etc/kubernetes/manifests/
+

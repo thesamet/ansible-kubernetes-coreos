@@ -1,0 +1,6 @@
+- name: create manifests directoy
+  file: name=/etc/kubernetes/manifests state=directory
+
+- name: create kube-proxy pod manifest
+  template: src=kube-proxy.yaml.j2 dest=/etc/kubernetes/manifests/kube-proxy.yaml
+

@@ -1,0 +1,5 @@
+# When in production/ansible, install using:
+#
+# ansible-galaxy -r requirements.yml -p roles
+- src: defunctzombie.coreos-bootstrap
+
