@@ -1,0 +1,6 @@
+- name: create manifests directory
+  file: name=/etc/kubernetes/manifests state=directory
+
+- name: create apiserver pod manifest
+  template: src=kube-apiserver.yaml.j2 dest=/etc/kubernetes/manifests/kube-apiserver.yaml
+

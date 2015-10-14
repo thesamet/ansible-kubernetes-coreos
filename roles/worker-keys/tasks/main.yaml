@@ -1,0 +1,13 @@
+- name: create master keys directory
+  file: name=/etc/kubernetes/ssl/ state=directory
+
+- name: set up worker TLS assets
+  copy: src=../../../certs/{{item}} dest=/etc/kubernetes/ssl/{{item}}
+  with_items:
+  - ca.pem
+  - worker.pem
+  - worker-key.pem
+
+- name: set up worker kubeconfig
+  copy: src=worker-kubeconfig.yaml dest=/etc/kubernetes/worker-kubeconfig.yaml
+
