@@ -6,14 +6,16 @@
   tasks:
   - name: install httplib2
     pip: name=httplib2
+
+- hosts: etcd
+  sudo: yes
+  vars_files:
+  - cluster.yaml
+  roles:
+  - etcd-node
     
 - hosts: master
-  gather_facts: false
   vars:
-    ETCD_ENDPOINTS: |
-      {% for host in groups['etcd'] -%}
-        http://{{host}}:2379{% if not loop.last -%},{%endif%}
-      {%- endfor %}
     master_url: http://127.0.0.1:8080
   sudo: yes
   vars_files:
@@ -30,31 +32,34 @@
   - kube-scheduler
   tasks:
   - name: Starting kubelet
-    command: systemctl start kubelet
+    service: name=kubelet state=started
 
   - name: Ensure kubelet will start after boot
-    command: systemctl enable kubelet
+    service: name=kubelet enabled=yes
 
   - name: Waiting for API to start
     wait_for: host=127.0.0.1 port=8080
 
   - name: Creating Kubernetes namespace
-    command: 
-      curl -XPOST -d'{"apiVersion":"v1","kind":"Namespace","metadata":{"name":"kube-system"}}' "http://127.0.0.1:8080/api/v1/namespaces"
+    uri: >
+      method=POST
+      url=http://127.0.0.1:8080/api/v1/namespaces
+      body='{"apiVersion":"v1","kind":"Namespace","metadata":{"name":"kube-system-foo4"}}'
+    register: kube_result
+    failed_when: >
+        not (kube_result.status == 201 or (
+            kube_result.status == 409 and
+            'already exists' in kube_result.json.message))
+    changed_when: "kube_result.status == 201"
 
   handlers:
   - name: daemon-reload
     command: systemctl daemon-reload
 
 - hosts: minions
-  gather_facts: false
   sudo: yes
   vars:
-    ETCD_ENDPOINTS: |
-      {% for host in groups['etcd'] -%}
-        http://{{host}}:2379{% if not loop.last -%},{%endif%}
-      {%- endfor %}
-    master_url: "https://{{groups['master'][0]}}"
+    master_url: "{{MASTER_URL}}"
   vars_files:
   - cluster.yaml
   roles:
@@ -64,10 +69,10 @@
   - kube-proxy-worker
   tasks:
   - name: Starting kubelet
-    command: systemctl start kubelet
+    service: name=kubelet state=started
 
   - name: Ensure kubelet will start after boot
-    command: systemctl enable kubelet
+    service: name=kubelet enabled=yes
   handlers:
   - name: daemon-reload
     command: systemctl daemon-reload

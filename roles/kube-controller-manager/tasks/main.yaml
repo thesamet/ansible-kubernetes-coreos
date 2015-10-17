@@ -2,5 +2,5 @@
   file: name=/etc/kubernetes/manifests state=directory
 
 - name: create kube-controller-manager pod manifest
-  copy: src=kube-controller-manager.yaml dest=/etc/kubernetes/manifests/
+  template: src=kube-controller-manager.yaml.j2 dest=/etc/kubernetes/manifests/kube-controller-manager.yaml
 
