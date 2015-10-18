@@ -1,0 +1,6 @@
+- name: Starting kubelet
+  service: name=kubelet state=started
+
+- name: Ensure kubelet will start after boot
+  service: name=kubelet enabled=yes
+

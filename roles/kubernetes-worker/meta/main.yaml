@@ -1,0 +1,7 @@
+---
+dependencies:
+- {role: kubernetes-common/flannel }
+- {role: kubernetes-worker/worker-keys }
+- {role: kubernetes-worker/kubelet-worker }
+- {role: kubernetes-worker/kube-proxy-worker }
+

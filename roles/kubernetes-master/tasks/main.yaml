@@ -1,0 +1,21 @@
+- name: Starting kubelet service
+  service: name=kubelet state=started
+
+- name: Ensure kubelet will start after boot
+  service: name=kubelet enabled=yes
+
+- name: Waiting for API to start
+  wait_for: host=127.0.0.1 port=8080
+
+- name: Creating Kubernetes namespace
+  uri: >
+    method=POST
+    url=http://127.0.0.1:8080/api/v1/namespaces
+    body='{"apiVersion":"v1","kind":"Namespace","metadata":{"name":"kube-system"}}'
+  register: kube_result
+  failed_when: >
+      not (kube_result.status == 201 or (
+          kube_result.status == 409 and
+          'already exists' in kube_result.json.message))
+  changed_when: "kube_result.status == 201"
+

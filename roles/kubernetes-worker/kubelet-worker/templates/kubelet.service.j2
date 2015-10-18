@@ -4,18 +4,20 @@ Documentation=https://github.com/GoogleCloudPlatform/kubernetes
 
 [Service]
 ExecStart=/opt/local/bin/kubelet \
-  --api_servers={{master_url}} \
-  --register-node=false \
+  --api_servers={{MASTER_URL}} \
+  --register-node=true \
   --allow-privileged=true \
   --config=/etc/kubernetes/manifests \
   --hostname-override={{ansible_default_ipv4.address}} \
   --cluster_dns={{DNS_SERVICE_IP}} \
   --cluster_domain=cluster.local \
+  --kubeconfig=/etc/kubernetes/worker-kubeconfig.yaml \
+  --tls-cert-file=/etc/kubernetes/ssl/worker.pem \
+  --tls-private-key-file=/etc/kubernetes/ssl/worker-key.pem \
   --cloud-provider={{CLOUD_PROVIDER}} \
   --cadvisor-port=0
-
 Restart=always
 RestartSec=10
-
 [Install]
 WantedBy=multi-user.target
+
