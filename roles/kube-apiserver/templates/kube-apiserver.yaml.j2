@@ -7,7 +7,7 @@ spec:
   hostNetwork: true
   containers:
   - name: kube-apiserver
-    image: gcr.io/google_containers/hyperkube:v1.0.6
+    image: {{HYPERKUBE_IMAGE}}
     command:
     - /hyperkube
     - apiserver
@@ -23,7 +23,7 @@ spec:
     - --client-ca-file=/etc/kubernetes/ssl/ca.pem
     - --service-account-key-file=/etc/kubernetes/ssl/apiserver-key.pem
 {% if CLOUD_PROVIDER %}
-    - --cloud-provider=aws
+    - --cloud-provider={{CLOUD_PROVIDER}}
 {% endif %}
     ports:
     - containerPort: 443

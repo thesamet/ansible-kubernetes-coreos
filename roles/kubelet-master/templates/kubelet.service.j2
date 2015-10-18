@@ -1,5 +1,9 @@
+[Unit]
+Description=Kubernetes Kubelet
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+
 [Service]
-ExecStart=/usr/bin/kubelet \
+ExecStart=/opt/local/bin/kubelet \
   --api_servers={{master_url}} \
   --register-node=false \
   --allow-privileged=true \
@@ -7,8 +11,11 @@ ExecStart=/usr/bin/kubelet \
   --hostname-override={{ansible_default_ipv4.address}} \
   --cluster_dns={{DNS_SERVICE_IP}} \
   --cluster_domain=cluster.local \
+  --cloud-provider={{CLOUD_PROVIDER}} \
   --cadvisor-port=0
+
 Restart=always
 RestartSec=10
+
 [Install]
 WantedBy=multi-user.target

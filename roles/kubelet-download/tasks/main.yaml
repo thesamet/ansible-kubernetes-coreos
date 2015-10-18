@@ -1,0 +1,6 @@
+- name: Create /opt/local/bin
+  file: name=/opt/local/bin state=directory
+
+- name: Download kubelet binary
+  get_url: url={{KUBELET_BINARY}} dest=/opt/local/bin/kubelet mode=0755
+

@@ -1,5 +1,9 @@
+[Unit]
+Description=Kubernetes Kubelet
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+
 [Service]
-ExecStart=/usr/bin/kubelet \
+ExecStart=/opt/local/bin/kubelet \
   --api_servers={{master_url}} \
   --register-node=true \
   --allow-privileged=true \
@@ -10,6 +14,7 @@ ExecStart=/usr/bin/kubelet \
   --kubeconfig=/etc/kubernetes/worker-kubeconfig.yaml \
   --tls-cert-file=/etc/kubernetes/ssl/worker.pem \
   --tls-private-key-file=/etc/kubernetes/ssl/worker-key.pem \
+  --cloud-provider={{CLOUD_PROVIDER}} \
   --cadvisor-port=0
 Restart=always
 RestartSec=10

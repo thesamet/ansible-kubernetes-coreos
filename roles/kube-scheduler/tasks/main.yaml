@@ -2,5 +2,5 @@
   file: name=/etc/kubernetes/manifests state=directory
 
 - name: create schduler pod manifest
-  copy: src=kube-scheduler.yaml dest=/etc/kubernetes/manifests/
+  template: src=kube-scheduler.yaml.j2 dest=/etc/kubernetes/manifests/kube-scheduler.yaml
 
