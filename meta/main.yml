@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  author: Nadav Samet
+  description: Kubernetes on CoreOS role framework
+  company: TrueAccord
+  license: Apache 2.0
+  min_ansible_version: 1.2
+  categories:
+  - cloud
+  - cloud:ec2
+  - clustering
+dependencies: []
+  # List your role dependencies here, one per line.
+  # Be sure to remove the '[]' above if you add dependencies
+  # to this list.
+  
