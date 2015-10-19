@@ -1,0 +1,68 @@
+---
+# Unique token for your etcd cluster. Change when making a new cluster.
+ETCD_INITIAL_CLUSTER_TOKEN: mycluster
+
+# URL for the API server (IP is of the master's machine)
+MASTER_URL: https://10.0.38.36
+
+# Name of cloud provider (can be left empty)
+CLOUD_PROVIDER: aws
+
+# The name of the Ansible group where all the etcd machines belong.
+# Used by etcd-node.
+ETCD_ANSIBLE_GROUP: etcd
+
+# List all the etcd client endpoints. Used by flannel and the master.
+# We are not re-using ETCD_ANSIBLE_GROUP
+# here, since a playbook forgroup since these could be private IPs (and we do
+# not gather facts for that group)
+ETCD_HOSTS:
+- http://10.0.63.186:2379
+- http://10.0.63.187:2379
+- http://10.0.63.188:2379
+
+# Local directory (on the machine running ansible) where the TLS certificates
+# are found.
+# The directory should contain the following files:
+# - ca.pem: certificate authority public certificate.
+# - apiserver.pem: public certificate of the API server.
+# - apiserver-key.pem: private key of the API server.
+# - worker.pem: public certificate of the minion.
+# - worker-key.pem: private key of the minion.
+# - admin.pem: public certificate of an admin user.
+# - admin-key.pem: private key of the admin user.
+LOCAL_SSL_DIR: /home/thesamet/kube-tls
+
+# OPTIONAL: Public IP of the API server. This is used by the certificate
+# generation code to add this IP address to the certificate.
+MASTER_PUBLIC_HOST: 52.26.12.13
+
+# --------------------------------------------
+# DEFAULT VALUES THAT YOU DO NOT HAVE TO TOUCH
+# --------------------------------------------
+ 
+# Setup kubeconfig on core's directory on master.
+SETUP_KUBECONFIG_ON_MASTER: yes
+
+# IP subnet for pods (via flannel)
+POD_NETWORK: 10.2.0.0/16
+
+# IP subnet for services (via flannel)
+SERVICE_IP_RANGE: 10.3.0.0/24
+
+# Kubernetes API server - service address.
+K8S_SERVICE_IP: 10.3.0.1
+
+# Kubernetes DNS server - service address.
+DNS_SERVICE_IP: 10.3.0.10
+
+# Hyperkube is an all in one docker image that contains an apiserver,
+# kubeproxy and various other binaries.
+HYPERKUBE_IMAGE: thesamet-docker-registry.bintray.io/kubernetes/hyperkube:v1.1.0-054f4cef
+
+# Path to download kubelet from.
+KUBELET_BINARY: https://bintray.com/artifact/download/thesamet/kubernetes/v1.1.0-054f4cef/linux-amd64/kubelet
+
+# Path to download kubectl form.
+KUBECTL_BINARY: https://bintray.com/artifact/download/thesamet/kubernetes/v1.1.0-054f4cef/linux-amd64/kubectl
+
