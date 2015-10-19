@@ -19,3 +19,46 @@
           'already exists' in kube_result.json.message))
   changed_when: "kube_result.status == 201"
 
+- name: Creating service and replication controller specs for DNS.
+  template: src={{item}}.yaml.j2 dest=/tmp/{{item}}.yaml
+  with_items:
+  - dns-addon-rc
+  - dns-addon-svc
+  tags: dns 
+
+- name: Checking if DNS service already exists
+  tags: dns 
+  command: 
+    /opt/local/bin/kubectl 
+      --kubeconfig=/home/core/.kube/config 
+      --namespace=kube-system
+      get svc kube-dns
+  register: rc
+  failed_when: false
+
+- name: Creating DNS service if not exists
+  command: 
+    /opt/local/bin/kubectl create 
+      --kubeconfig=/home/core/.kube/config 
+      -f /tmp/dns-addon-svc.yaml
+  when: '"kube-dns" not in rc.stdout'
+  tags: dns 
+
+- name: Checking if DNS replication controller exists
+  tags: dns 
+  command: 
+    /opt/local/bin/kubectl 
+      --kubeconfig=/home/core/.kube/config 
+      --namespace=kube-system
+      get rc
+  register: rc
+  failed_when: false
+
+- name: Creating DNS replication controller if not exists
+  command: 
+    /opt/local/bin/kubectl create 
+      --kubeconfig=/home/core/.kube/config 
+      -f /tmp/dns-addon-rc.yaml
+  when: '"kube-dns" not in rc.stdout'
+  tags: dns 
+
