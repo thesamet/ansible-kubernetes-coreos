@@ -35,6 +35,7 @@
       get svc kube-dns
   register: rc
   failed_when: false
+  changed_when: false
 
 - name: Creating DNS service if not exists
   command: 
@@ -53,6 +54,7 @@
       get rc
   register: rc
   failed_when: false
+  changed_when: false
 
 - name: Creating DNS replication controller if not exists
   command: 
