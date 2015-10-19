@@ -20,3 +20,6 @@
     src=40-flannel.conf dest=/etc/systemd/system/docker.service.d/
   notify: daemon-reload
 
+- name: ensure flanneld is running
+  service: name=flanneld state=started
+
