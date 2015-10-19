@@ -4,7 +4,7 @@
 - name: Ensure kubelet will start after boot
   service: name=kubelet enabled=yes
 
-- name: Waiting for API to start
+- name: Waiting for API to start (stay patient - pulling images)
   wait_for: host=127.0.0.1 port=8080
 
 - name: Creating Kubernetes namespace

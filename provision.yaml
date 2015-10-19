@@ -9,22 +9,16 @@
 
 - hosts: etcd
   sudo: yes
-  vars_files:
-  - cluster.yaml
   roles:
   - etcd-node
     
 - hosts: master
   sudo: yes
-  vars_files:
-  - cluster.yaml
   roles:
   - kubernetes-master
 
 - hosts: minions
   sudo: yes
-  vars_files:
-  - cluster.yaml
   roles:
   - kubernetes-worker
 
