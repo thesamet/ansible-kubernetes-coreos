@@ -58,11 +58,11 @@ DNS_SERVICE_IP: 10.3.0.10
 
 # Hyperkube is an all in one docker image that contains an apiserver,
 # kubeproxy and various other binaries.
-HYPERKUBE_IMAGE: thesamet-docker-registry.bintray.io/kubernetes/hyperkube:v1.1.0-054f4cef
+HYPERKUBE_IMAGE: thesamet-docker-registry.bintray.io/kubernetes/hyperkube:v1.1.2-0ede84e6
 
 # Path to download kubelet from.
-KUBELET_BINARY: https://bintray.com/artifact/download/thesamet/kubernetes/v1.1.0-054f4cef/linux-amd64/kubelet
+KUBELET_BINARY: https://bintray.com/artifact/download/thesamet/kubernetes/v1.1.2-0ede84e6/linux-amd64/kubelet
 
 # Path to download kubectl form.
-KUBECTL_BINARY: https://bintray.com/artifact/download/thesamet/kubernetes/v1.1.0-054f4cef/linux-amd64/kubectl
+KUBECTL_BINARY: https://bintray.com/artifact/download/thesamet/kubernetes/v1.1.2-0ede84e6/linux-amd64/kubectl
 
