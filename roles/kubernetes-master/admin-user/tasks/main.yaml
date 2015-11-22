@@ -2,7 +2,10 @@
   file: name=/opt/local/bin state=directory
 
 - name: Download kubectl binary
-  get_url: url={{KUBECTL_BINARY}} dest=/opt/local/bin/kubectl mode=0755
+  get_url: url={{KUBECTL_BINARY}} dest=/opt/local/bin/kubectl-{{KUBERNETES_VERSION}} mode=0755
+
+- name: Setting up symbolic link to binary;
+  file: src=/opt/local/bin/kubectl-{{KUBERNETES_VERSION}} dest=/opt/local/bin/kubectl state=link
 
 - name: Create core/kube direcoty
   file: name=/home/core/.kube owner=core group=core state=directory
